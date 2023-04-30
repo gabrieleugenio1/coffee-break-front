@@ -1,0 +1,12 @@
+/*Variáveis padronização*/
+:root{
+    --cor-1:#09814A;
+    --cor-2:#2D4739;
+    --cor-3:#DAFFED;
+    --cor-4:#003F91;
+    --cor-5:#00A1E4;
+    --cor-branca: #F2F2F2;
+    --cor-preta: #0F0F0F;
+    --cor-alerta-sucesso:#D4EDDA;
+    --cor-alerta-falha:#D11515C0;
+  }

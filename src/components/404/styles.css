@@ -1,0 +1,7 @@
+.main__404{
+    background-color: var(--cor-branca);
+    height: 100vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+}

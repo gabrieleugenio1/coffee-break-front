@@ -1,0 +1,20 @@
+.flashmessage {
+    position: absolute;
+    width: 50%;
+    text-align: center;
+    top: 2rem;
+    transform: translateX(50%);
+}
+
+.flashmessage > p{
+    padding: .6rem;
+    font-weight: 600;
+}
+
+.sucess{
+    background-color: var(--cor-alerta-sucesso);
+}
+
+.danger{
+    background-color: var(--cor-alerta-falha);
+}

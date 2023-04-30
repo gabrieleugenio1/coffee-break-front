@@ -1,0 +1,33 @@
+.main__formulario{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.main__formulario input{
+    width: 35%;
+    height: 25px;
+    min-width: 180px;
+    border: 2px solid var(--cor-preta);
+    border-radius: 10px;    
+}
+
+.main__formulario label{
+    margin-top: .7rem;
+}
+
+.main__formulario button[type="submit"] {
+    margin-top: 1rem;
+    padding: .5rem;
+    max-width: 20%;
+    min-width: 85px;
+    cursor: pointer;
+    border-radius: 4%;
+    transition: all 0.5s;
+    background-color: var(--cor-branca);
+}
+
+.main__formulario button:hover{
+    background-color: var(--cor-5);
+}
+
