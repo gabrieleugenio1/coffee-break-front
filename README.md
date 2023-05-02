@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+## Executando
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Baixe, extraia e dê npm install, para executar utilize o comando:
 
-## Available Scripts
+**npm start** ou **npm run build**
+Acesse em http://localhost:3000
 
-In the project directory, you can run:
+Insira nas variáveis de ambiente o link <br>
+REACT_APP_BASE_URL = URL
+### Desktop
+![image](https://user-images.githubusercontent.com/101233631/235776215-ab73cc5a-317f-4fe8-a148-4e11481b4327.png)
+![image](https://user-images.githubusercontent.com/101233631/235775124-7ca1fa3a-d0c4-462f-baef-a659a498c0be.png)
+![image](https://user-images.githubusercontent.com/101233631/235775342-94a14b6e-43f4-45e4-808d-ce0638254123.png)
+<br>
+![image](https://user-images.githubusercontent.com/101233631/235775538-725de1bb-8117-49b7-8961-83e064145f25.png)
+![image](https://user-images.githubusercontent.com/101233631/235776412-e86db48f-e371-4d6d-b02f-1170d170e62d.png)
 
-### `npm start`
+### Mobile
+A única diferença é o menu lateral e a tabela responsiva<br>
+![image](https://user-images.githubusercontent.com/101233631/235777809-3d399bdd-2f62-40aa-96c0-bb262787d91e.png)
+![image](https://user-images.githubusercontent.com/101233631/235778911-c3ed71a4-2ea7-4d09-a5c4-f87d1b18cbc3.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Instruções
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+A tela inicial ou página principal mostra quando ocorrerá o próximo coffee até 5 dias depois do dia atual. Se for no dia atual, a tabela habilitará a opção de confirmar presença e, se passar da data, ficará um ícone de X se ele não esteve presente ou um V se esteve presente no dia.
 
-### `npm test`
+Para criar um coffee, é necessário inserir o cpf de um colaborador já cadastrado e inserir pelo menos um produto. Quando digitar o(s) produto(s), no campo ficará minúsculo, mas quando visualizar na tabela estará maiúscula. Para enviar para os dados, é preciso clicar duas vezes no botão.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Para criar um colaborador, é preciso inserir um CPF válido e um nome que ainda não esteja cadastrado
 
-### `npm run build`
+Só é possível alterar o nome do colaborador se o nome que estiver tentando mudar não estiver cadastrado no sistema.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### O que há na aplicação
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Utilização NativeQuery (SQL) para inserção, atualização, consulta e exclusão. <a href="https://github.com/gabrieleugenio1/desafio-back-end">Link do Back-End</a><br>
+O nome do colaborador não pode existir.<br>
+Não pode ter cpf iguais e precisa ser válido.<br>
+O colaborador pode apenas atualizar o seu nome.<br>
+Não pode repetir opção de café da manhã mesmo que seja outro colaborador.<br>
+A data de realização do café é maior que a data atual.<br>
+Aparece loading enquanto está dando carregando os dados das tabelas.
