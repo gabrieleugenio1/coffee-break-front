@@ -2,7 +2,7 @@
 
 Baixe, extraia e dê npm install, para executar utilize o comando:
 
-**npm start** ou **npm run build**
+**npm start** ou **npm run build**<br>
 Acesse em http://localhost:3000
 
 Insira nas variáveis de ambiente o link <br>
