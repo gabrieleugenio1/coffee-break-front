@@ -15,7 +15,6 @@ registerLocale("pt-BR", ptBR);
 export default function FormCoffee() {
   const [antigaData, setAntigaData] = useState(addDays(new Date(), 1));
   const [novaData, setNovaData] = useState();
-  const [colaborador, setColaborador] = useState();
   const [formVal, setFormVal] = useState([{ nome: "", cpf:  ""}]);
   const [FormItems, setFormItems] = useState([{ items: "" }]);
   const [msgForm, setMsgForm] = useState(true);
@@ -39,7 +38,6 @@ export default function FormCoffee() {
     if (cpf.length === 11) {
       await axios(options)
       .then((res) => {
-        setColaborador([{ nome: res.data.nome ?? "", cpf: res.data.cpf ?? ""}]);
         if(!res.data.nome || !res.data.cpf ){
           document.getElementById("formCoffee").disabled = true;
         }else{
@@ -265,6 +263,7 @@ export default function FormCoffee() {
                       type="text"
                       name="items"
                       value={item.items || ""}
+                      maxLength={30}
                       onChange={(e) => onHandleFormItems(e, i)}
                       placeholder="Digite o produto" required
                     />
@@ -292,7 +291,8 @@ export default function FormCoffee() {
                   <div style={{color:'red'}}>{item.checarCpf}<br/>{item.checarTamanhoCpf}</div>
               </div>
             </div>
-            <button id="formCoffee" type="submit" autoFocus disabled>Crie/Entre no Coffee Break</button>
+       
+            <button id="formCoffee" type="submit" autoFocus disabled>Clique duas vezes para criar/entrar.</button>
           </form>
         </div>
       ))}

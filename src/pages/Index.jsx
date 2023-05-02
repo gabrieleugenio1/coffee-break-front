@@ -58,6 +58,7 @@ export default function Index() {
         coffee.presentes.push(item[11]);
 
         if (moment(data_coffee, "DD/MM/YYYY").isSame(moment(), "day")) {
+          // eslint-disable-next-line
           coffeeAtual = Object.values(coffeePorParticipante[colaborador_id])[0];
         } else if (!proximoCoffee || moment(data_coffee, "DD/MM/YYYY").isBefore(moment(proximoCoffee, "DD/MM/YYYY"))) {
           proximoCoffee = data_coffee;

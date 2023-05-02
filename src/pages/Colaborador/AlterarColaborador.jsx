@@ -4,10 +4,9 @@ import { IMaskInput } from "react-imask";
 import { ValidarCPF } from '../../utils/CPF';
 import axios from "axios";
 import FlashMessage from '../../components/FlashMessage/FlashMessage';
-import { useLocation, useParams, useNavigate  } from 'react-router-dom';
+import { useLocation, useNavigate  } from 'react-router-dom';
 
 export default function AlterarColaborador() {
-  const {id} = useParams();
   const params = useLocation().state;
   const navigate = useNavigate(); 
 

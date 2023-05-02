@@ -11,26 +11,25 @@ export default function Header() {
     const [menuIsVisible, setMenuIsVisible] = useState(false);
 
     return(
-    <>
-    <MenuMobile 
-    menuIsVisible={menuIsVisible} 
-    setMenuIsVisible={setMenuIsVisible}/>
+        <>
+            <MenuMobile 
+                menuIsVisible={menuIsVisible} 
+                setMenuIsVisible={setMenuIsVisible}
+            />
 
-    <header className="header" setMenuIsVisible={setMenuIsVisible}>
-            <NavLink className={"header__logo"} to="/" title="Home"><h2>Coffee Break</h2></NavLink>
-            <div>
-                <section className="header__menu">
-                    <nav className="nav">
-                        <HeaderRotas />
-                    </nav>
-                </section>
-                <section className="header__mobile">
-                    <FontAwesomeIcon icon={faBars} size="xl" onClick={()=>setMenuIsVisible(true)}/>
-                </section>
-            </div>
-    </header>
-    </>
+            <header className="header">
+                <NavLink className={"header__logo"} to="/" title="Home"><h2>Coffee Break</h2></NavLink>
+                <div>
+                    <section className="header__menu">
+                        <nav className="nav">
+                            <HeaderRotas />
+                        </nav>
+                    </section>
+                    <section className="header__mobile">
+                        <FontAwesomeIcon icon={faBars} size="xl" onClick={()=>setMenuIsVisible(true)}/>
+                    </section>
+                </div>
+            </header>
+        </>
     )
 }
-
-
