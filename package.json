@@ -18,6 +18,7 @@
     "react-imask": "^6.6.1",
     "react-router-dom": "^6.11.0",
     "react-scripts": "^5.0.1",
+    "react-spinners": "^0.13.8",
     "styled-components": "^5.3.10",
     "web-vitals": "^2.1.4"
   },

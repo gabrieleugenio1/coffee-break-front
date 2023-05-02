@@ -30,6 +30,17 @@ table th {
   text-transform: uppercase;
 }
 
+.btn_confirmar-presenca{
+  transition: all 0.5s;
+  border: 2px solid var(--cor-preta);
+  border-radius: 10px;    
+  color: var(--cor-preta);
+}
+
+.btn_confirmar-presenca:hover{
+  background-color: var(--cor-5);
+}
+
 @media screen and (max-width: 600px) {
   .colaboradores__tabela {
     border: 0;

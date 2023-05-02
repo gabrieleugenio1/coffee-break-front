@@ -65,20 +65,18 @@ export default function CadastroColaborador() {
     return valido
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async(e) => {
     e.preventDefault();
     const validado = formValidacao(formVal)
-    console.log("validado", validado)
     if(validado) {
       delete formVal[0].checarNome;
       delete formVal[0].checarCpf;
       delete formVal[0].checarTamanhoCpf;
       delete formVal[0].checarTamanhoNome;
-      console.log("submitData", formVal)
 
     // axios
     const options = {
-      url: 'http://localhost:8080/colaborador/cadastrar',
+      url: `${process.env.REACT_APP_BASE_URL}/colaborador/cadastrar`,
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -86,7 +84,7 @@ export default function CadastroColaborador() {
       },
       data: formVal[0]
     };
-    axios(options)
+    await axios(options)
       .then(async(res) => {
         setTipo("sucess");
         setMsg(await res.data);

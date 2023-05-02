@@ -4,7 +4,7 @@ import { IMaskInput } from "react-imask";
 import { ValidarCPF } from '../../utils/CPF';
 import axios from "axios";
 import FlashMessage from '../../components/FlashMessage/FlashMessage';
-import { redirect, useLocation, useParams, useNavigate  } from 'react-router-dom';
+import { useLocation, useParams, useNavigate  } from 'react-router-dom';
 
 export default function AlterarColaborador() {
   const {id} = useParams();
@@ -35,7 +35,7 @@ export default function AlterarColaborador() {
         data[index].checarTamanhoNome = ""
         valido = false
 
-      } else if(data[index].nome.length < 5) {
+      } else if(data[index].nome ? (data[index].nome.length < 5) : null) {
         data[index].checarTamanhoNome = "O nome deve ter mais de 5 caracteres"
         data[index].checarNome = ""
         valido = false
@@ -51,7 +51,7 @@ export default function AlterarColaborador() {
         data[index].checarTamanhoCpf = ""
         valido = false
 
-      }else if( data[index].cpf.length !== 11 || !ValidarCPF(data[index].cpf) ) {
+      }else if( data[index].cpf ? (data[index].cpf.length !== 11 || !ValidarCPF(data[index].cpf)) : null) {
         data[index].checarCpf = "CPF inválido"
         data[index].checarTamanhoCpf = ""
         valido = false
@@ -70,17 +70,15 @@ export default function AlterarColaborador() {
   const onSubmit = (e) => {
     e.preventDefault();
     const validado = formValidacao(formVal)
-    console.log("validado", validado)
     if(validado) {
       delete formVal[0].checarNome;
       delete formVal[0].checarCpf;
       delete formVal[0].checarTamanhoCpf;
       delete formVal[0].checarTamanhoNome;
-      console.log("submitData", formVal)
 
     // axios
     const options = {
-      url: 'http://localhost:8080/colaborador/alterar',
+      url: `${process.env.REACT_APP_BASE_URL}/colaborador/alterar`,
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -114,7 +112,6 @@ export default function AlterarColaborador() {
       <main className="main container">
         <section>
           <h3>Alterar Colaborador</h3>
-          {console.log(params)}
           {formVal.map((item, i)=> (
             <div key={i}>            
             <form className="main__formulario" onSubmit={onSubmit} method="post">

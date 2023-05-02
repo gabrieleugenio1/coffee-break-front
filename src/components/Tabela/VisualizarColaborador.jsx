@@ -15,7 +15,7 @@ export default function VisualizarColaborador({colaboradores, setTipo, setMsg}) 
     const confirmacao = window.confirm("Deseja realmente apagar este colaborador?");
     if (confirmacao) {
       const options = {
-        url: `http://localhost:8080/colaborador/deletar/${id}`,
+        url: `${process.env.REACT_APP_BASE_URL}/colaborador/deletar/${id}`,
         method: 'DELETE',
         headers: {
           'Accept': 'application/json',

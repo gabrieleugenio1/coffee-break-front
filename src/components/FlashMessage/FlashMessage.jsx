@@ -17,14 +17,14 @@ export default function FlashMessage({type, msg}){
         
         const timer = setTimeout(() => {
             setVisible(false);
-        }, 4000);
+        }, 5000);
 
         return () => clearTimeout(timer);
     },[msg]);
 
     return(
         <>
-            {visible &&(  
+            {visible && (  
                 <div className="flashmessage">
                     <p className={`${type}`}>{msg}</p>               
                 </div> 

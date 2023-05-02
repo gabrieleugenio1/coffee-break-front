@@ -3,17 +3,18 @@ import Header from '../../components/Header/Header';
 import Tabela from '../../components/Tabela/VisualizarColaborador';
 import axios from 'axios';
 import FlashMessage from '../../components/FlashMessage/FlashMessage';
+import { PulseLoader } from "react-spinners";
 
 export default function VisualizarColaborador() {
   const [msg, setMsg] = useState('');
   const [tipo, setTipo] = useState('');
   const [colaboradores, setColaboradores] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(()=>{
     const getAll = () =>{
       const options = {
-        url: 'http://localhost:8080/colaborador/all',
+        url: `${process.env.REACT_APP_BASE_URL}/colaborador/all`,
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -24,8 +25,7 @@ export default function VisualizarColaborador() {
       axios(options)
         .then(res => {
           setColaboradores(res.data ?? null);
-          setLoading(true);
-          console.log(res.data);
+          setIsLoading(false);
       });
   }
   getAll();
@@ -37,7 +37,12 @@ export default function VisualizarColaborador() {
       <FlashMessage type={`${tipo}`} msg={`${msg}`}/>
       <main className="main container">
       <section>
-       {loading && <Tabela colaboradores={colaboradores ?? null} setTipo={setTipo} setMsg={setMsg} />}
+       {isLoading ?           
+       <div className='spinner'>
+          <PulseLoader color="#123abc" loading={isLoading} size={20} />
+        </div> 
+        : 
+        <Tabela colaboradores={colaboradores ?? null} setTipo={setTipo} setMsg={setMsg} />}
       </section>
     </main>
     </div>  

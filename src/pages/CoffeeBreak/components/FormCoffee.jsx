@@ -8,39 +8,50 @@ import ptBR from "date-fns/locale/pt-BR";
 import { IMaskInput } from "react-imask";
 import "../styles.css";
 import { ValidarCPF } from "../../../utils/CPF";
+import moment from "moment";
+import FlashMessage from "../../../components/FlashMessage/FlashMessage";
 registerLocale("pt-BR", ptBR);
 
-export default function FormCoffee({ setTipo, setMsg }) {
-  const [data, setData] = useState(addDays(new Date(), 1));
+export default function FormCoffee() {
+  const [antigaData, setAntigaData] = useState(addDays(new Date(), 1));
+  const [novaData, setNovaData] = useState();
   const [colaborador, setColaborador] = useState();
   const [formVal, setFormVal] = useState([{ nome: "", cpf:  ""}]);
   const [FormItems, setFormItems] = useState([{ items: "" }]);
+  const [msgForm, setMsgForm] = useState(true);
+  const [tipoForm, setTipoForm] = useState(null);
 
+  const [msg, setMsg] = useState('');
+  const [tipo, setTipo] = useState('');
   const [alert, setAlert] = useState(false);
 
   // axios
-
   const options = {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json;charset=UTF-8",
     },
   };
-  const buscarCpf = (cpf) => {
+
+  const buscarCpf = async(cpf) => {
     options.method = "GET";
-    options.url = `http://localhost:8080/colaborador/encontrarCpf/${cpf}`;
+    options.url = `${process.env.REACT_APP_BASE_URL}/colaborador/encontrarCpf/${cpf}`;
     if (cpf.length === 11) {
-    axios(options)
+      await axios(options)
       .then((res) => {
         setColaborador([{ nome: res.data.nome ?? "", cpf: res.data.cpf ?? ""}]);
+        if(!res.data.nome || !res.data.cpf ){
+          document.getElementById("formCoffee").disabled = true;
+        }else{
+          document.getElementById("formCoffee").disabled = false;
+        };
+
         let newForm = [...formVal];
         newForm[0]["nome"] = res.data.nome ?? "NÃO ENCONTRADO";
         newForm[0]["cpf"] = res.data.cpf;
         setFormVal(newForm);
+
       })
-      .catch((err) => {
-        console.log(err);
-      });
     }else{
       let newForm = [...formVal];
       newForm[0]["nome"] = "";
@@ -60,9 +71,18 @@ export default function FormCoffee({ setTipo, setMsg }) {
 
   const onHandleFormItems = (e, i) => {
     let newForm = [...FormItems];
-    newForm[i][e.target.name] = e.target.value;
+    let newItem = e.target.value.trim();
+    newItem = e.target.value.toLowerCase();
+
+    if (newForm.some(item => item.items === newItem)) { 
+      alert("Este item já está na lista!");
+      return;
+    }
+    newForm[0].checaritems = ""
+    newForm[i][e.target.name] = newItem;
     setFormItems(newForm);
   };
+  
 
   const onHandleFormVal = (e, i) => {
     let newForm = [...formVal];
@@ -73,19 +93,23 @@ export default function FormCoffee({ setTipo, setMsg }) {
   const formValidacao = (formVal) => {
     const data = [...formVal];
     const dataItems = [...FormItems];
-
+    setNovaData(moment(antigaData).format("YYYY-MM-DD"));
     let valido = true;
     let validoItems = true;
+
     for(let index = 0; index < dataItems.length; index++){
      if(dataItems[index].items === "") {
         dataItems[index].checaritems = "Insira algum produto";
         dataItems[index].checarTamanhoitems = "";
         validoItems = false;
+
       } else if(dataItems[index].items?.length < 3 || !/^[a-zA-Z]/.test(dataItems[index].items)) {
         dataItems[index].checarItems = "";
         dataItems[index].checarTamanhoitems = "Insira algum produto válido";
         validoItems = false;
+
       }else{
+
         dataItems[index].checaritems = "";
         dataItems[index].checarTamanhoitems = "";
         validoItems = true;
@@ -114,7 +138,7 @@ export default function FormCoffee({ setTipo, setMsg }) {
         data[index].checarTamanhoCpf = ""
         valido = false
 
-      }else if( data[index].cpf?.length !== 11 || !ValidarCPF(data[index].cpf) ) {
+      } else if(data[index].cpf?.length !== 11 || !ValidarCPF(data[index].cpf)) {
         data[index].checarCpf = "CPF inválido"
         data[index].checarTamanhoCpf = ""
         valido = false
@@ -124,64 +148,102 @@ export default function FormCoffee({ setTipo, setMsg }) {
         data[index].checarTamanhoCpf = ""
         valido = true
       }
+
+      if(!data || !moment(novaData, "YYYY-MM-DD", true).isValid()){
+        data[index].checarDataValida = "Data inválida"
+        valido = false
+
+      }else{
+        data[index].checarDataValida = ""
+        valido = true
+      }
     }
     setFormVal(data);
     return {valido, validoItems};
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    setMsg('');
+    setTipo('');
     const {valido, validoItems} = formValidacao(formVal);
-
     if (valido && validoItems) {
       let items = FormItems;
       delete formVal[0].checarNome;
       delete formVal[0].checarCpf;
       delete formVal[0].checarTamanhoCpf;
       delete formVal[0].checarTamanhoNome;
+      delete formVal[0].checarDataValida;
+      formVal[0].data_coffee = novaData;
 
       for(let item of items){
         delete item.checaritems;
         delete item.checarTamanhoitems;
       }
       formVal[0].items = FormItems
-      console.log(formVal)
 
-
-      options.url = `http://localhost:8080//coffeebreak/criar`;
+      options.url = `${process.env.REACT_APP_BASE_URL}/coffeebreak/criar`;
       options.method = "POST";
       options.data = formVal[0];
-      axios(options)
-        .then(async (res) => {
+      await axios(options)
+        .then(  (res) => {
+          setMsg(  res.data ?? "Operação feita com sucesso.");
+          setMsgForm( res.data ?? "Operação feita com sucesso.");
           setTipo("sucess");
-          setMsg(await res.data);
+          setTipoForm("sucess");
           setAlert(true);
         })
-        .catch(async (err) => {
+        .catch( (err) => {
+          setMsg(  err.response.data ?? "Falha ao enviar, tente novamente.");
+          setMsgForm(  err.response.data ?? "Falha ao enviar, tente novamente.");
           setTipo("danger");
+          setTipoForm("danger");
           setAlert(true);
-          setMsg(await err.response.data ?? "Serviço indisponível");
         });
     }
   };
-
+  
+  useEffect(() => {
+    setTipo('');
+    setMsg('');
+    setTimeout(() => {
+      setAlert(false);
+      setMsgForm(null);
+      setTipoForm(null);
+    }, 4000);
+    return ()=> clearTimeout();
+  }, [alert]);
 
   return (
     <>
+      {true && <FlashMessage type={`${tipo}`} msg={`${msg}`}/>}
+      
       {formVal.map((item, i) => (
+        
         <div key={i}>
-          <form className="main__formulario" method="post" onSubmit={onSubmit}>
+          {msgForm && <div style={{color: tipoForm === "sucess" ? "green" : "red" }}>{msgForm}</div>}
+          <form className="main__formulario" onSubmit={onSubmit}>
             <label htmlFor="data">Data do Coffee Break:</label>
             <DatePicker
               dateFormat="dd/MM/yyyy"
               placeholderText="Selecione a data"
-              selected={data}
-              onChange={(data) => setData(data)}
+              selected={antigaData}
+              onChange={(data) => setAntigaData(data)}
               startDate={addDays(new Date(), 1)}
               minDate={addDays(new Date(), 1)}
               locale="pt-BR"
               onFocus={(e) => e.target.blur()}
               disabledKeyboardNavigation
+            />
+            <label htmlFor="cpf">CPF:</label>
+            <IMaskInput
+              mask="000.000.000-00"
+              unmask={true}
+              required={true}
+              placeholder="Digite o CPF do colaborador"
+              onAccept={(value, mask) => {
+                buscarCpf(value); 
+              }}
             />
             <label htmlFor="nome">Nome:</label>
             <input
@@ -191,18 +253,11 @@ export default function FormCoffee({ setTipo, setMsg }) {
               value={item.nome || ""}
               onChange={(e) => onHandleFormVal(e, i)}
               placeholder="Digite o nome do colaborador"
+              disabled
             />
-            <label htmlFor="cpf">CPF:</label>
-            <IMaskInput
-              mask="000.000.000-00"
-              unmask={true}
-              placeholder="Digite o CPF do colaborador"
-              onAccept={(value, mask) => {
-                buscarCpf(value); 
-              }}
-            />
+
               <div className="main__formulario-novositems">
-              <label htmlFor="items">Items:</label>
+              <label htmlFor="items">Produto(s):</label>
               <div>
                 {FormItems.map((item, i) => (
                   <div key={i}>
@@ -220,7 +275,7 @@ export default function FormCoffee({ setTipo, setMsg }) {
                         aria-label="Acrescentar novos produtos"
                         onClick={addLinha}
                       >
-                        Add
+                        Novo produto
                       </button>
                     ) : (
                       <button
@@ -237,7 +292,7 @@ export default function FormCoffee({ setTipo, setMsg }) {
                   <div style={{color:'red'}}>{item.checarCpf}<br/>{item.checarTamanhoCpf}</div>
               </div>
             </div>
-            <button type="submit">Novo Coffee Break</button>
+            <button id="formCoffee" type="submit" autoFocus disabled>Crie/Entre no Coffee Break</button>
           </form>
         </div>
       ))}
