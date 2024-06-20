@@ -32,7 +32,7 @@ Só é possível alterar o nome do colaborador se o nome que estiver tentando mu
 
 ### O que há na aplicação
 
-Utilização NativeQuery (SQL) para inserção, atualização, consulta e exclusão. <a href="https://github.com/gabrieleugenio1/desafio-back-end">Link do Back-End</a><br>
+Utilização NativeQuery (SQL) para inserção, atualização, consulta e exclusão. <a href="https://github.com/gabrieleugenio1/coffee-break-back">Link do Back-End</a><br>
 O nome do colaborador não pode existir.<br>
 Não pode ter cpf iguais e precisa ser válido.<br>
 O colaborador pode apenas atualizar o seu nome.<br>
